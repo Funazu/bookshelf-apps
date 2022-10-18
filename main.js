@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log(books)
   })
 
-  function makeBook(bookObject) {
+    function makeBook(bookObject) {
     const textTitle = document.createElement('h3');
     textTitle.innerText = bookObject.title;
 
@@ -50,11 +50,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const textYear = document.createElement('p')
     textYear.innerText = 'Tahun: ' + bookObject.year;
 
+
+    const article = document.createElement('article');
+    article.classList.add('book_item');
+    article.append(textTitle, textAuthor, textYear);
+
+    const action = document.createElement('div');
+    action.classList.add('action')
+    article.append(action);
+
     if (bookObject.isComplete) {
-      // true (sudah dibaca)
       const undoButton = document.createElement('button');
       undoButton.classList.add('green')
-      undoButton.innerText('Belum selesai di Baca')
+      undoButton.innerText = "Belum selesai di Baca";
 
       undoButton.addEventListener('click', function () {
         undoBookFromCompleted(bookObject.id);
@@ -62,21 +70,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const deleteButton = document.createElement('button');
       deleteButton.classList.add('red');
-      deleteButton.innerText('Hapus buku')
+      deleteButton.innerText = "Hapus buku";
 
       deleteButton.addEventListener('click', function () {
         removeBookFromCompleted(bookObject.id);
       })
 
-      const action = document.createElement('div');
-      action.classList.add('action')
       action.append(undoButton, deleteButton);
 
+
     } else {
-      // false (belum dibaca)
       const checkButton = document.createElement('button');
       checkButton.classList.add('green');
-      checkButton.innerText('Selesai dibaca')
+      checkButton.innerText = "Selesai dibaca";
 
       checkButton.addEventListener('click', function () {
         addBookToCompleted(bookObject.id)
@@ -84,20 +90,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const deleteButton = document.createElement('button');
       deleteButton.classList.add('red');
-      deleteButton.innerText('Hapus buku');
+      deleteButton.innerText = "Hapus buku";
 
       deleteButton.addEventListener('click', function () {
         removeBookFromCompleted(bookObject.id);
       })
-
-      const action = document.createElement('div');
-      action.classList.add('action')
       action.append(checkButton, deleteButton);
     }
 
-    const article = document.createElemen('article');
-    article.classList.add('book_item');
-    article.append(textTitle, textAuthor, textYear);
+
+    return article;
   }
 
   document.addEventListener(RENDER_EVENT, function () {
